@@ -27,6 +27,60 @@ class Tree
     root
   end
 
+  def find(x, node = root)
+    if node.nil?
+      nil
+    elsif node.data == x
+      node
+    elsif node.data > x
+      find(x, node.left)
+    elsif node.data < x
+      find(x, node.right)
+    end
+  end
+
+  def find_parent(x, node = root)
+    if node.data == x
+      x_node
+    elsif node.data > x
+      @x_node = node
+      find_parent(x, node.left)
+    else
+      @x_node = node
+      find_parent(x, node.right)
+    end
+  end
+
+  def find_last_left(x, node = root)
+    if node.nil?
+      x_node
+    elsif node.data > x
+      @x_node = node
+      find_last_left(x, node.left)
+    else
+      find_last_left(x, node.right)
+    end
+  end
+
+  def maximium(node = root)
+    node = node.right until node.right.nil?
+    node
+  end
+
+  def minimum(node = root)
+    node = node.left until node.left.nil?
+    node
+  end
+
+  def successor(x)
+    node = find(x)
+    if node.right.nil?
+      find_last_left(x)
+    else
+      minimum(node.right)
+    end
+  end
+
   def insert(key, node = root)
     if node.nil?
       "no data"
@@ -40,43 +94,68 @@ class Tree
   end
 
   def delete(key, node = root)
-    # case1: leaf node
-    if node.nil?
-      'done'
-    elsif node.data > key
-      if node.left.nil?
-        p "it does't exist already"
-      elsif node.left.data == key && !(node.left.left || node.left.right)
-        node.left = nil
-      end
-      delete(key, node.left)
-    elsif node.data < key
-      if node.right.nil?
-        p "it does't exist already"
-      elsif node.right.data == key && !(node.right.left || node.right.right)
-        node.right = nil
-      end
-      delete(key, node.right)
-    end
+    parent = find_parent(key)
+    target = find(key)
 
-    # case2: one child deletion
-    if node.nil?
-      "done"
-    elsif node.data > key
-      if node.left.nil?
-        p "it does't exist already"
-      elsif node.left.data == key
-        node.left = node.left.left if node.left.right.nil?
+    # case 1: leaf
+    if target.left.nil? && target.right.nil?
+      if parent.left.data == key && !parent.left.nil?
+        parent.left = nil
+      elsif parent.right.data == key && !parent.right.nil?
+        parent.right = nil
       end
-      delete(key, node.left)
-    elsif node.data < key
-      if node.right.nil?
-        p "it does't exist already"
-      elsif node.right.data == key
-        node.right = node.right.right if node.right.left.nil?
+
+    # case 2: one child node
+    elsif target.left.nil? || target.right.nil?
+      if parent.left.data == target.data
+        target.right.nil? ? @x_node = target.left : @x_node = target.right
+        parent.left = x_node
+      elsif parent.right.data == target.data
+        target.right.nil? ? @x_node = target.left : @x_node = target.right
+        parent.right = x_node
       end
-      delete(key, node.right)
     end
+    # case 3: two children node
+
+  end
+  # def delete(key, node = root)
+  #   # case1: leaf node
+  #   if node.nil?
+  #     'done'
+  #   elsif node.data > key
+  #     if node.left.nil?
+  #       p "it does't exist already"
+  #     elsif node.left.data == key && !(node.left.left || node.left.right)
+  #       node.left = nil
+  #     end
+  #     delete(key, node.left)
+  #   elsif node.data < key
+  #     if node.right.nil?
+  #       p "it does't exist already"
+  #     elsif node.right.data == key && !(node.right.left || node.right.right)
+  #       node.right = nil
+  #     end
+  #     delete(key, node.right)
+  #   end
+
+  #   # case2: one child deletion
+  #   if node.nil?
+  #     "done"
+  #   elsif node.data > key
+  #     if node.left.nil?
+  #       p "it does't exist already"
+  #     elsif node.left.data == key
+  #       node.left = node.left.left if node.left.right.nil?
+  #     end
+  #     delete(key, node.left)
+  #   elsif node.data < key
+  #     if node.right.nil?
+  #       p "it does't exist already"
+  #     elsif node.right.data == key
+  #       node.right = node.right.right if node.right.left.nil?
+  #     end
+  #     delete(key, node.right)
+  #   end
 
     # case3: two child node deletion
     # if node.nil?
@@ -91,7 +170,7 @@ class Tree
     #   x_node.data = node.data if node.right.nil?
     #   delete(key, node.right)
     # end
-  end
+  # end
 
   def inorder(node, output = [])
     return if node.nil?
@@ -127,15 +206,23 @@ class Tree
   end
 end
 
-array = [1, 2, 3, 4, 5, 6, 7]
+array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 x = Tree.new(array)
-x.insert(10)
-x.insert(0)
-x.insert(6.95)
-x.insert(1.1)
-# x.delete(8)
+# x.insert(10)
+x.insert(5.5)
+x.insert(4.5)
+x.insert(3.6)
 x.pretty_print
+# x.delete(8)
+# p x.maximium.data
+# p x.minimum.data
+# p x.find(7)
+# p x.find_last_left(9)
+# p x.successor(9).data
+p x.delete(7)
+x.pretty_print
+# p x.find_parent(8).data
 # p x.preorder(x.root)
 # p x.preorder(root)
 
