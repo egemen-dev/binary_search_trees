@@ -122,59 +122,31 @@ class Tree
       target.data = suc.data
     end
   end
-  # def delete(key, node = root)
-  #   # case1: leaf node
-  #   if node.nil?
-  #     'done'
-  #   elsif node.data > key
-  #     if node.left.nil?
-  #       p "it does't exist already"
-  #     elsif node.left.data == key && !(node.left.left || node.left.right)
-  #       node.left = nil
-  #     end
-  #     delete(key, node.left)
-  #   elsif node.data < key
-  #     if node.right.nil?
-  #       p "it does't exist already"
-  #     elsif node.right.data == key && !(node.right.left || node.right.right)
-  #       node.right = nil
-  #     end
-  #     delete(key, node.right)
-  #   end
 
-  #   # case2: one child deletion
-  #   if node.nil?
-  #     "done"
-  #   elsif node.data > key
-  #     if node.left.nil?
-  #       p "it does't exist already"
-  #     elsif node.left.data == key
-  #       node.left = node.left.left if node.left.right.nil?
-  #     end
-  #     delete(key, node.left)
-  #   elsif node.data < key
-  #     if node.right.nil?
-  #       p "it does't exist already"
-  #     elsif node.right.data == key
-  #       node.right = node.right.right if node.right.left.nil?
-  #     end
-  #     delete(key, node.right)
-  #   end
+  # Breadth First Search
+  def level_order(result = [], queue = [], node = root)
+    queue << node
+    until queue.empty?
+      kicked = queue.shift # dequeue
+      result << kicked.data
+      queue << kicked.left unless kicked.left.nil?
+      queue << kicked.right unless kicked.right.nil?
+    end
+    result
+  end
 
-    # case3: two child node deletion
-    # if node.nil?
-    #   "done"
-    # elsif node.data == key
-    #   @x_node = node
-    #   delete(key, node.right)
-    # elsif node.data > key
-    #   x_node.data = node.data if node.left.nil?
-    #   delete(key, node.left)
-    # elsif node.data < key
-    #   x_node.data = node.data if node.right.nil?
-    #   delete(key, node.right)
-    # end
-  # end
+  def level_order_recursive(result = [], queue = [], node = root)
+    queue << node if result.empty?
+
+    unless queue.empty?
+      kicked = queue.shift # dequeue
+      result << kicked.data
+      queue << kicked.left unless kicked.left.nil?
+      queue << kicked.right unless kicked.right.nil?
+      level_order_recursive(result, queue)
+    end
+    result
+  end
 
   def inorder(node, output = [])
     return if node.nil?
@@ -188,7 +160,7 @@ class Tree
   def preorder(node, output = [])
     return if node.nil?
 
-    p output << node.data
+    output << node.data
     preorder(node.left, output)
     preorder(node.right, output)
     output
@@ -227,6 +199,8 @@ x.pretty_print
 # p x.successor(9).data
 x.delete(8)
 x.pretty_print
+p x.level_order
+p x.level_order_recursive
 # p x.find_parent(8).data
 # p x.preorder(x.root)
 # p x.preorder(root)
