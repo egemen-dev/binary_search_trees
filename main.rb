@@ -114,9 +114,13 @@ class Tree
         target.right.nil? ? @x_node = target.left : @x_node = target.right
         parent.right = x_node
       end
-    end
-    # case 3: two children node
 
+    # case 3: two children node
+    elsif target.left && target.right
+      suc = successor(key)
+      delete(suc.data)
+      target.data = suc.data
+    end
   end
   # def delete(key, node = root)
   #   # case1: leaf node
@@ -213,6 +217,7 @@ x = Tree.new(array)
 x.insert(5.5)
 x.insert(4.5)
 x.insert(3.6)
+x.insert(9.2)
 x.pretty_print
 # x.delete(8)
 # p x.maximium.data
@@ -220,7 +225,7 @@ x.pretty_print
 # p x.find(7)
 # p x.find_last_left(9)
 # p x.successor(9).data
-p x.delete(7)
+x.delete(8)
 x.pretty_print
 # p x.find_parent(8).data
 # p x.preorder(x.root)
