@@ -175,6 +175,46 @@ class Tree
     output
   end
 
+  def height(node = root)
+    if node.nil?
+      -1
+    else
+      node = find(node) if node.is_a?(Integer)
+      left = height(node.left)
+      right = height(node.right)
+      if left > right
+        h = 1 + left
+      else
+        h = 1 + right
+      end
+      h
+    end
+  end
+
+  def depth(x, node = root, edges = 0)
+    if node.nil?
+      nil
+    elsif node.data == x
+      edges
+    elsif node.data > x
+      edges += 1
+      depth(x, node.left, edges)
+    elsif node.data < x
+      edges += 1
+      depth(x, node.right, edges)
+    end
+  end
+
+  def balanced?(node = root)
+    if node.nil?
+      -1
+    else
+      left = height(node.left)
+      right = height(node.right)
+      left.abs - right.abs < 2
+    end
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -182,14 +222,14 @@ class Tree
   end
 end
 
-array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-
+# array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+array = [1,2,3]
 x = Tree.new(array)
 # x.insert(10)
-x.insert(5.5)
-x.insert(4.5)
-x.insert(3.6)
-x.insert(9.2)
+# x.insert(5.5)
+# x.insert(4.5)
+# x.insert(3.6)
+# x.insert(9.2)
 x.pretty_print
 # x.delete(8)
 # p x.maximium.data
@@ -197,10 +237,18 @@ x.pretty_print
 # p x.find(7)
 # p x.find_last_left(9)
 # p x.successor(9).data
-x.delete(8)
+# x.delete(8)
+# p x.level_order
+# p x.level_order_recursive
+# p x.height(67)
+# p x.depth(4.5)
+# x.insert(7600)
+# x.insert(7650)
+# x.insert(7670)
+# x.insert(7680)
+# x.insert(7690)
 x.pretty_print
-p x.level_order
-p x.level_order_recursive
+p x.balanced?
 # p x.find_parent(8).data
 # p x.preorder(x.root)
 # p x.preorder(root)
