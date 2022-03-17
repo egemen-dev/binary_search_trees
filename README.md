@@ -21,7 +21,7 @@
 
 * **#level_order** - Prints all the values in level order by using iteration. Can be used with block too.
 
-* **#level_order_recursive** - Prints all the values in level order by using recursion. Can be used with recursion too.
+* **#level_order_recursive** - Prints all the values in level order by using recursion. Can be used with block too.
 
 * **#inorder** - Prints all the values in inorder.
 
