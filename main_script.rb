@@ -25,3 +25,12 @@ puts "tree level order ->  #{tree_1.level_order}"
 puts "tree preorder    ->  #{tree_1.preorder}"
 puts "tree postorder   ->  #{tree_1.postorder}"
 puts "tree inorder     ->  #{tree_1.inorder}"
+
+#level_order usage with a block:
+
+tree_1.level_order do |node|
+  puts "node data: #{node.data}"
+end
+
+tree_1.level_order { |node| puts "node data: #{node.data}" }
+tree_1.level_order_recursive { |node| puts "node data: #{node.data}" }

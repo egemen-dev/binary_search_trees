@@ -123,11 +123,12 @@ class Tree
       result << kicked.data
       queue << kicked.left unless kicked.left.nil?
       queue << kicked.right unless kicked.right.nil?
+      yield(kicked) if block_given?
     end
     result
   end
 
-  def level_order_recursive(result = [], queue = [], node = root)
+  def level_order_recursive(result = [], queue = [], node = root, &block)
     queue << node if result.empty?
 
     unless queue.empty?
@@ -135,7 +136,8 @@ class Tree
       result << kicked.data
       queue << kicked.left unless kicked.left.nil?
       queue << kicked.right unless kicked.right.nil?
-      level_order_recursive(result, queue)
+      yield(kicked) if block_given?
+      level_order_recursive(result, queue, &block)
     end
     result
   end

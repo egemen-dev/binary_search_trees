@@ -12,15 +12,16 @@
 * **#find_parent** - Takes a value and returns the parent of the given node.
 
 * **#find_last_left** - Takes a value and returns the left most element of the given node branch / subtree.
+
 * **#maximum** - Finds the maximum node value from the tree.
 
 * **#minimum** - Finds the minimum node value from the tree.
 
 * **#successor** - Finds the inorder successor of the given node.
 
-* **#level_order** - Prints all the values in level order by using iteration.
+* **#level_order** - Prints all the values in level order by using iteration. Can be used with block too.
 
-* **#level_order_recursive** - Prints all the values in level order by using recursion.
+* **#level_order_recursive** - Prints all the values in level order by using recursion. Can be used with recursion too.
 
 * **#inorder** - Prints all the values in inorder.
 
