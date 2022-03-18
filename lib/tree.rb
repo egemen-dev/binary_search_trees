@@ -142,29 +142,32 @@ class Tree
     result
   end
 
-  def inorder(node = root, output = [])
+  def inorder(node = root, output = [], &block)
     return if node.nil?
 
-    inorder(node.left, output)
+    inorder(node.left, output, &block)
+    yield(node) if block_given?
     output << node.data
-    inorder(node.right, output)
+    inorder(node.right, output, &block)
     output
   end
 
-  def preorder(node = root, output = [])
+  def preorder(node = root, output = [], &block)
     return if node.nil?
 
+    yield(node) if block_given?
     output << node.data
-    preorder(node.left, output)
-    preorder(node.right, output)
+    preorder(node.left, output, &block)
+    preorder(node.right, output, &block)
     output
   end
 
-  def postorder(node = root, output = [])
+  def postorder(node = root, output = [], &block)
     return if node.nil?
 
-    postorder(node.left, output)
-    postorder(node.right, output)
+    postorder(node.left, output, &block)
+    postorder(node.right, output, &block)
+    yield(node) if block_given?
     output << node.data
     output
   end

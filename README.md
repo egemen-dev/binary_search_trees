@@ -23,11 +23,11 @@
 
 * **#level_order_recursive** - Prints all the values in level order by using recursion. Can be used with block too.
 
-* **#inorder** - Prints all the values in inorder.
+* **#inorder** - Prints all the values in inorder. Can be used with block too.
 
-* **#preorder** - Prints all the values in preorder.
+* **#preorder** - Prints all the values in preorder. Can be used with block too.
 
-* **#postorder** - Prints all the values in postorder.
+* **#postorder** - Prints all the values in postorder. Can be used with block too.
 
 * **#height** - Accepts a node (optinal: value) and returns the height of the given node.
 
